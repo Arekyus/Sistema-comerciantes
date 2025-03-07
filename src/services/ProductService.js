@@ -1,7 +1,7 @@
 import db from '../database/database';
 
 class ProductService {
-  // Buscar todos os produtos
+  
   getAllProducts() {
     return new Promise((resolve, reject) => {
       db.transaction(tx => {
@@ -19,7 +19,7 @@ class ProductService {
     });
   }
 
-  // Buscar um produto pelo ID
+  
   getProductById(id) {
     return new Promise((resolve, reject) => {
       console.log('Buscando produto com ID:', id);
@@ -46,7 +46,7 @@ class ProductService {
     });
   }
 
-  // Adicionar novo produto
+  
   addProduct(product) {
     return new Promise((resolve, reject) => {
       const { code, name, price, costPrice, quantity } = product;
@@ -66,7 +66,7 @@ class ProductService {
     });
   }
 
-  // Atualizar um produto
+  
   updateProduct(product) {
     return new Promise((resolve, reject) => {
       const { id, code, name, price, costPrice, quantity } = product;
@@ -94,7 +94,7 @@ class ProductService {
     });
   }
 
-  // Excluir um produto
+  
   deleteProduct(id) {
     return new Promise((resolve, reject) => {
       db.transaction(tx => {
@@ -112,7 +112,7 @@ class ProductService {
     });
   }
 
-  // Atualizar estoque de um produto
+  
   updateStock(productId, quantity) {
     return new Promise((resolve, reject) => {
       console.log(`Atualizando estoque: produto ${productId}, quantidade ${quantity}`);

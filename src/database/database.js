@@ -1,15 +1,12 @@
 import * as SQLite from 'expo-sqlite';
 
-// Abrir ou criar o banco de dados
 const db = SQLite.openDatabase('comerciantes.db');
 
-// Melhore a estrutura do initDatabase
 export const initDatabase = () => {
   return new Promise((resolve, reject) => {
     try {
       console.log("Abrindo conexão com o banco de dados");
       
-      // Faça uma operação simples para verificar se o banco está acessível
       db.exec([{ sql: 'PRAGMA foreign_keys = ON;', args: [] }], false, (error) => {
         if (error) {
           console.error("Erro ao configurar banco de dados:", error);
@@ -18,11 +15,11 @@ export const initDatabase = () => {
         
         console.log("Conexão com banco de dados estabelecida");
         
-        // Use uma única transação para todas as operações
+
         db.transaction(tx => {
           console.log("Iniciando criação de tabelas");
           
-          // Tabela de produtos
+
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS products (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,11 +33,10 @@ export const initDatabase = () => {
             () => console.log("Tabela de produtos criada com sucesso"),
             (_, error) => {
               console.error("Erro ao criar tabela de produtos:", error);
-              return false; // Interrompe a transação
+              return false;
             }
           );
           
-          // Tabela de vendas
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS sales (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,11 +51,11 @@ export const initDatabase = () => {
             () => console.log("Tabela de vendas criada com sucesso"),
             (_, error) => {
               console.error("Erro ao criar tabela de vendas:", error);
-              return false; // Interrompe a transação
+              return false;
             }
           );
           
-          // Tabela de itens da venda
+          
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS sale_items (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -75,7 +71,7 @@ export const initDatabase = () => {
             () => console.log("Tabela de itens de venda criada com sucesso"),
             (_, error) => {
               console.error("Erro ao criar tabela de itens de venda:", error);
-              return false; // Interrompe a transação
+              return false; 
             }
           );
         }, 

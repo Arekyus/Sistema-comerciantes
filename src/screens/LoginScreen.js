@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = () => {
     setIsLoading(true);
     
-    // Simular uma chamada de API com um pequeno atraso
+    
     setTimeout(() => {
       if (username === 'sistema' && password === 'sistema') {
         setIsLoading(false);
@@ -84,7 +84,7 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F75908', // Nova cor de fundo laranja
+    backgroundColor: '#F75908', 
   },
   formContainer: {
     flex: 1,
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoContainer: {
-    width: width * 0.5,  // 50% da largura da tela
-    height: width * 0.5, // Mantemos a proporção quadrada
+    width: width * 0.5,  
+    height: width * 0.5, 
     backgroundColor: 'white',
-    borderRadius: width * 0.25, // Metade da largura para criar um círculo perfeito
+    borderRadius: width * 0.25, 
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
-    // Adicionar sombra para destaque
+    
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -111,26 +111,26 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   logo: {
-    width: '80%',  // 80% do tamanho do círculo
-    height: '80%', // 80% do tamanho do círculo
-    // Remover marginBottom pois agora o container já tem margin
+    width: '80%',  
+    height: '80%', 
+    
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 30,
-    color: '#FFF', // Texto branco para contrastar com o fundo laranja
+    color: '#FFF', 
   },
   input: {
-    width: '80%', // Largura ajustada para 80%
+    width: '80%', 
     height: 55,
     backgroundColor: 'white',
-    borderRadius: 12, // Cantos mais arredondados
+    borderRadius: 12, 
     paddingHorizontal: 15,
     marginBottom: 20,
     borderWidth: 0,
     fontSize: 16,
-    textAlign: 'center', // Texto centralizado
+    textAlign: 'center', 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -141,10 +141,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   button: {
-    width: '80%', // Mantendo consistência com os inputs
+    width: '80%', 
     height: 55,
-    backgroundColor: '#333', // Botão escuro para contrastar com o fundo
-    borderRadius: 12, // Cantos arredondados
+    backgroundColor: '#333', 
+    borderRadius: 12, 
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 15,

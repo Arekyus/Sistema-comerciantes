@@ -16,26 +16,26 @@ import ProductService from '../services/ProductService';
 import SaleService from '../services/SaleService';
 
 const SalesScreen = ({ navigation }) => {
-  // Estados para gerenciar a venda
+  
   const [saleNumber, setSaleNumber] = useState('0001');
   const [buyerName, setBuyerName] = useState('');
   const [buyerPhone, setBuyerPhone] = useState('');
   const [saleItems, setSaleItems] = useState([]);
   const [loading, setLoading] = useState(false);
   
-  // Estados para os modais
+  
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
   const [productsModalVisible, setProductsModalVisible] = useState(false);
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
   const [paymentModalVisible, setPaymentModalVisible] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   
-  // Estados para adicionar produtos
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState('1');
   
-  // Produtos cadastrados no sistema (exemplo)
+  
   const [products, setProducts] = useState([
     { id: '1', code: 'P001', name: 'Camiseta Básica', quantity: 25, price: 29.90 },
     { id: '2', code: 'P002', name: 'Calça Jeans', quantity: 15, price: 89.90 },
@@ -44,12 +44,12 @@ const SalesScreen = ({ navigation }) => {
     { id: '5', code: 'P005', name: 'Boné', quantity: 20, price: 24.90 },
   ]);
   
-  // Produtos filtrados pela busca
+  
   const filteredProducts = products.filter(product => 
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Carregar o próximo número de venda ao iniciar
+  
   useEffect(() => {
     const loadSaleNumber = async () => {
       try {
@@ -73,13 +73,13 @@ const SalesScreen = ({ navigation }) => {
     loadProducts();
   }, []);
 
-  // Função para cancelar a venda
+  
   const handleCancelSale = () => {
     setCancelModalVisible(false);
     navigation.navigate('Home');
   };
   
-  // Função para selecionar um produto e abrir modal de quantidade
+  
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setProductsModalVisible(false);
@@ -87,7 +87,7 @@ const SalesScreen = ({ navigation }) => {
     setQuantity('1');
   };
   
-  // Função para adicionar produto à venda
+  
   const handleAddProduct = () => {
     if (!selectedProduct) return;
     
@@ -97,18 +97,18 @@ const SalesScreen = ({ navigation }) => {
       return;
     }
     
-    // Verificar se o produto já está na venda
+    
     const existingProductIndex = saleItems.findIndex(item => item.id === selectedProduct.id);
     
     if (existingProductIndex >= 0) {
-      // Atualizar quantidade se o produto já existir na venda
+      
       const updatedItems = [...saleItems];
       updatedItems[existingProductIndex].saleQuantity += qtyNumber;
       updatedItems[existingProductIndex].total = 
         updatedItems[existingProductIndex].saleQuantity * updatedItems[existingProductIndex].price;
       setSaleItems(updatedItems);
     } else {
-      // Adicionar novo item à venda
+      
       const newItem = {
         ...selectedProduct,
         saleQuantity: qtyNumber,
@@ -121,7 +121,7 @@ const SalesScreen = ({ navigation }) => {
     setSelectedProduct(null);
   };
   
-  // Função para editar quantidade de um item
+  
   const handleEditQuantity = (itemId) => {
     const item = saleItems.find(i => i.id === itemId);
     if (item) {
@@ -131,15 +131,15 @@ const SalesScreen = ({ navigation }) => {
     }
   };
   
-  // Função para remover item da venda
+  
   const handleRemoveItem = (itemId) => {
     setSaleItems(saleItems.filter(item => item.id !== itemId));
   };
   
-  // Calcular total da venda
+  
   const saleTotal = saleItems.reduce((sum, item) => sum + item.total, 0);
   
-  // Função para processar o pagamento
+  
   const handleFinishSale = async (method) => {
     console.log('Iniciando finalização de venda...');
     setLoading(true);
@@ -149,7 +149,7 @@ const SalesScreen = ({ navigation }) => {
     try {
       console.log(`Finalizando venda com método: ${method}, itens: ${saleItems.length}`);
       
-      // Verificar se há itens na venda
+      
       if (saleItems.length === 0) {
         Alert.alert('Erro', 'Adicione pelo menos um produto à venda');
         setLoading(false);
@@ -167,25 +167,25 @@ const SalesScreen = ({ navigation }) => {
       
       console.log("Enviando dados para salvar venda:", JSON.stringify(saleData));
       
-      // Salvar a venda no banco de dados
+      
       const result = await SaleService.createSale(saleData);
       
       console.log("Venda finalizada com sucesso, resultado:", result);
       
-      // Limpar os dados da venda atual
+      
       try {
         const nextNumber = await SaleService.getNextSaleNumber();
         setSaleNumber(nextNumber);
       } catch (numberError) {
         console.error("Erro ao obter próximo número:", numberError);
-        // Não falha a operação por causa disso
+        
       }
       
       setBuyerName('');
       setBuyerPhone('');
       setSaleItems([]);
       
-      // Exibir alerta de sucesso (pequeno delay para UI)
+      
       setTimeout(() => {
         Alert.alert(
           'Venda Finalizada', 
@@ -203,7 +203,7 @@ const SalesScreen = ({ navigation }) => {
             },
             {
               text: 'Nova Venda',
-              onPress: () => {} // Permanece na tela atual
+              onPress: () => {} 
             }
           ]
         );
@@ -216,17 +216,17 @@ const SalesScreen = ({ navigation }) => {
         'Não foi possível finalizar a venda. Verifique o log para mais detalhes.'
       );
     } finally {
-      // Sempre garantimos que o loading é desativado
+      
       setLoading(false);
     }
   };
 
-  // Adicione uma função para visualizar detalhes após finalizar a venda
+  
   const handleViewDetails = (saleId) => {
     navigation.navigate('SalesDetailScreen', { saleId });
   };
   
-  // Renderizar item da lista de produtos cadastrados
+  
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
       <View style={styles.productInfo}>
@@ -243,7 +243,7 @@ const SalesScreen = ({ navigation }) => {
     </View>
   );
   
-  // Renderizar item da venda
+  
   const renderSaleItem = ({ item }) => (
     <View style={styles.saleItem}>
       <View style={styles.saleItemInfo}>
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  // Estilos para o modal de cancelamento e quantidade
+  
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -779,7 +779,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-  // Estilos para o modal de produtos
+  
   productModalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -854,7 +854,7 @@ const styles = StyleSheet.create({
   addIconButton: {
     padding: 8,
   },
-  // Estilos para o modal de pagamento
+  
   paymentOptions: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -18,10 +18,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ProductScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [minStockValue, setMinStockValue] = useState(3); // Valor padrão
+  const [minStockValue, setMinStockValue] = useState(3); 
   const [lowStockModalVisible, setLowStockModalVisible] = useState(false);
 
-  // Carregar produtos do banco de dados
+  
   const loadProducts = async () => {
     try {
       setLoading(true);
@@ -36,7 +36,7 @@ const ProductScreen = ({ navigation }) => {
     }
   };
 
-  // Executa quando a tela é montada ou quando voltamos para ela
+  
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       loadProducts();
@@ -45,7 +45,7 @@ const ProductScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // Carregar valor mínimo de estoque configurado
+  
   useEffect(() => {
     const loadMinStockValue = async () => {
       try {
@@ -66,12 +66,12 @@ const ProductScreen = ({ navigation }) => {
     navigation.navigate('EditProductScreen', { productId });
   };
 
-  // Função para filtrar produtos com estoque baixo
+  
   const getLowStockProducts = () => {
     return products.filter(product => parseInt(product.quantity) < minStockValue);
   };
 
-  // Modifique o renderItem para incluir o indicador de estoque baixo
+  
   const renderItem = ({ item }) => (
     <View style={styles.productItem}>
       <Text style={styles.productCode}>{item.code}</Text>
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   quantityHeader: {
-    width: 50, // Aumentado de 40 para 50 para acomodar o ícone
+    width: 50, 
     textAlign: 'center',
   },
   list: {

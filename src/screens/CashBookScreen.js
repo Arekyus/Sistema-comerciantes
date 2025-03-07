@@ -8,7 +8,7 @@ import {
   FlatList, 
   StatusBar, 
   Modal, 
-  Alert,  // Adicionar esta importação
+  Alert,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import SaleService from '../services/SaleService';
@@ -19,7 +19,7 @@ const CashBookScreen = ({ navigation }) => {
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
   const [selectedSale, setSelectedSale] = useState(null);
 
-  // Carregar dados das vendas
+  
   useEffect(() => {
     const loadSalesData = async () => {
       try {
@@ -40,16 +40,16 @@ const CashBookScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // Atualize a função showSaleDetails para passar o parâmetro de origem
+  
   const showSaleDetails = (saleId) => {
-    // Passar a origem para que a tela de detalhes saiba de onde veio
+    
     navigation.navigate('SalesDetailScreen', { 
       saleId, 
-      source: 'CashBook'  // Identificador da tela de origem
+      source: 'CashBook'  
     });
   };
 
-  // Atualize a função renderItem para usar o ícone de olho
+  
   const renderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.saleItem}
@@ -79,7 +79,7 @@ const CashBookScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  // Calcular total geral de todas as vendas
+  
   const totalSales = salesData.reduce((sum, sale) => sum + sale.total, 0);
 
   return (

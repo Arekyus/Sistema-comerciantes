@@ -14,14 +14,14 @@ import db from '../database/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation }) => {
-  // Estados para controlar os modais
+  
   const [configModalVisible, setConfigModalVisible] = useState(false);
   const [passwordModalVisible, setPasswordModalVisible] = useState(false);
   const [stockConfigModalVisible, setStockConfigModalVisible] = useState(false);
   const [password, setPassword] = useState('');
-  const [minStockValue, setMinStockValue] = useState('3'); // Valor padrão inicial
+  const [minStockValue, setMinStockValue] = useState('3'); 
   
-  // Carregar o valor de estoque mínimo quando o componente for montado
+  
   useEffect(() => {
     const loadMinStockValue = async () => {
       try {
@@ -38,10 +38,10 @@ const HomeScreen = ({ navigation }) => {
     loadMinStockValue();
   }, []);
 
-  // Função para limpar o banco de dados
+  
   const clearDatabase = () => {
     db.transaction(tx => {
-      // Deletar todos os registros das tabelas
+      
       tx.executeSql('DELETE FROM sale_items', [], () => {
         console.log('Itens de venda apagados');
         
@@ -57,11 +57,9 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
-  // Função para validar senha e limpar banco
+  
   const handlePasswordConfirm = () => {
-    // Aqui você deve validar a senha com a mesma lógica da tela de login
-    // Por simplicidade, estou usando uma senha fixa para demonstração
-    if (password === 'admin') { // Substitua pela sua lógica de validação real
+    if (password === 'admin') { 
       setPasswordModalVisible(false);
       setConfigModalVisible(false);
       setPassword('');
@@ -71,21 +69,21 @@ const HomeScreen = ({ navigation }) => {
     }
   };
   
-  // Função para salvar o valor de estoque mínimo
+ 
   const handleSaveMinStock = async () => {
     try {
-      // Validar se é um número
+      
       const numValue = parseInt(minStockValue);
       if (isNaN(numValue) || numValue < 0) {
         Alert.alert('Erro', 'Por favor, insira um valor numérico válido maior ou igual a zero.');
         return;
       }
       
-      // Salvar no AsyncStorage
+      
       await AsyncStorage.setItem('@minStockValue', minStockValue);
       console.log('Valor mínimo de estoque salvo:', minStockValue);
       
-      // Fechar modal e mostrar confirmação
+      
       setStockConfigModalVisible(false);
       Alert.alert('Sucesso', `Configuração salva! Alertas serão mostrados quando o estoque for menor que ${minStockValue}.`);
     } catch (e) {
@@ -110,21 +108,21 @@ const HomeScreen = ({ navigation }) => {
 
       <View style={styles.menuContainer}>
         <TouchableOpacity
-          style={[styles.menuButton, { backgroundColor: '#4287f5' }]} // Azul
+          style={[styles.menuButton, { backgroundColor: '#4287f5' }]} 
           onPress={() => navigation.navigate('SalesScreen')}
         >
           <Text style={styles.menuButtonText}>Vendas</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.menuButton, { backgroundColor: '#42b883' }]} // Verde
+          style={[styles.menuButton, { backgroundColor: '#42b883' }]} 
           onPress={() => navigation.navigate('ProductScreen')}
         >
           <Text style={styles.menuButtonText}>Produtos</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.menuButton, { backgroundColor: '#f5a742' }]} // Laranja
+          style={[styles.menuButton, { backgroundColor: '#f5a742' }]} 
           onPress={() => navigation.navigate('CashBookScreen')}
         >
           <Text style={styles.menuButtonText}>Caixa</Text>
@@ -294,7 +292,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    position: 'relative', // Para posicionar o botão de configuração
+    position: 'relative', 
   },
   welcomeText: {
     fontSize: 24,
@@ -320,8 +318,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 3, // sombra para Android
-    shadowColor: '#000', // sombra para iOS
+    elevation: 3, 
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -350,7 +348,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  // Estilos para os modais
+  
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -430,7 +428,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 16,
   },
-  // Novos estilos para as opções de configuração
+  
   configOption: {
     flexDirection: 'row',
     alignItems: 'center',

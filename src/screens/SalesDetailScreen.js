@@ -12,7 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import SaleService from '../services/SaleService';  // Caminho correto
+import SaleService from '../services/SaleService';  
 
 const SalesDetailScreen = ({ navigation, route }) => {
   const [sale, setSale] = useState(null);
@@ -52,7 +52,7 @@ const SalesDetailScreen = ({ navigation, route }) => {
     loadSaleDetails();
   }, [route.params?.saleId]);
 
-  // Extrair a tela de origem dos parâmetros de rota, se existir
+  
   useEffect(() => {
     const { source } = route.params || {};
     if (source) {
@@ -60,7 +60,7 @@ const SalesDetailScreen = ({ navigation, route }) => {
     }
   }, [route.params]);
   
-  // Exibir loading enquanto carrega
+  
   if (loading) {
     return (
       <View style={styles.loadingContainer}>

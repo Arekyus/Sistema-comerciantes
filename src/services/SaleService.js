@@ -2,7 +2,7 @@ import db from '../database/database';
 import ProductService from './ProductService';
 
 class SaleService {
-  // Gerar um número de venda sequencial
+  
   async getNextSaleNumber() {
     return new Promise((resolve, reject) => {
       db.transaction(tx => {
@@ -22,7 +22,7 @@ class SaleService {
     });
   }
 
-  // Otimize o método createSale para processar itens de maneira mais eficaz
+  
   async createSale(saleData) {
     return new Promise((resolve, reject) => {
       const { number, client, phone, total, paymentMethod, items } = saleData;
@@ -30,9 +30,9 @@ class SaleService {
       
       console.log(`Criando venda #${number} com ${items.length} itens`);
       
-      // Usar uma única transação para toda a operação
+      
       db.transaction(tx => {
-        // 1. Inserir a venda principal
+        
         tx.executeSql(
           'INSERT INTO sales (number, client, phone, total, date, paymentMethod) VALUES (?, ?, ?, ?, ?, ?)',
           [number, client, phone, total, date, paymentMethod],
@@ -42,7 +42,7 @@ class SaleService {
             
             let itemsProcessed = 0;
             
-            // 2. Inserir cada item da venda individualmente
+            
             items.forEach((item) => {
               const { id, price, saleQuantity, total: itemTotal } = item;
               
@@ -53,14 +53,14 @@ class SaleService {
                   console.log(`Item ${id} adicionado com ID: ${itemId}`);
                   itemsProcessed++;
                   
-                  // 3. Atualizar estoque quando o item for inserido
+                  
                   tx.executeSql(
                     'UPDATE products SET quantity = quantity - ? WHERE id = ?',
                     [saleQuantity, id],
                     () => {
                       console.log(`Estoque do produto ${id} atualizado`);
                       
-                      // 4. Resolver a promessa quando todos os itens estiverem processados
+                      
                       if (itemsProcessed === items.length) {
                         console.log(`Venda #${number} finalizada com sucesso!`);
                         resolve({
@@ -78,7 +78,7 @@ class SaleService {
               );
             });
             
-            // Se não houver itens, resolver imediatamente
+            
             if (items.length === 0) {
               resolve({
                 id: saleId,
@@ -94,22 +94,22 @@ class SaleService {
           }
         );
       }, 
-      // Callback de erro de transação
+      
       error => {
         console.error(`Erro na transação: ${error.message}`);
         reject(error);
       },
-      // Callback de sucesso de transação (não é chamado se already resolved)
+      
       () => {
         console.log('Transação completa');
       });
     });
   }
 
-  // Corrija o método addSaleItem para garantir que está funcionando corretamente
+  
   addSaleItem(tx, saleId, item) {
     return new Promise((resolve, reject) => {
-      // O ERRO ESTÁ AQUI: as variáveis não estão sendo extraídas
+      
       const { id, price, saleQuantity, total } = item;
       
       console.log(`Adicionando item à venda ${saleId}: produto=${id}, quantidade=${saleQuantity}, preço=${price}`);
@@ -129,7 +129,7 @@ class SaleService {
     });
   }
 
-  // Buscar todas as vendas
+  
   getSales() {
     return new Promise((resolve, reject) => {
       db.transaction(tx => {
@@ -147,7 +147,7 @@ class SaleService {
     });
   }
 
-  // Aprimorar o método getSaleDetails para garantir que todos os itens são carregados corretamente
+  
   getSaleDetails(saleId) {
     return new Promise((resolve, reject) => {
       let sale = {};
@@ -155,7 +155,7 @@ class SaleService {
       console.log(`Buscando detalhes da venda #${saleId}`);
       
       db.transaction(tx => {
-        // Primeiro, buscar os dados básicos da venda
+        
         tx.executeSql(
           'SELECT * FROM sales WHERE id = ?',
           [saleId],
@@ -166,10 +166,10 @@ class SaleService {
               return;
             }
             
-            // Clone os dados para evitar problemas de referência
+            
             sale = {...rows._array[0]};
             
-            // Em seguida, buscar os itens com JOIN explícito e ORDER BY
+            
             tx.executeSql(
               `SELECT 
                 si.id, 
@@ -187,7 +187,7 @@ class SaleService {
               (_, { rows: itemsRows }) => {
                 console.log(`Encontrados ${itemsRows.length} itens para a venda #${saleId}`);
                 
-                // Converter os tipos numéricos explicitamente
+                
                 const items = itemsRows._array.map(item => ({
                   ...item,
                   quantity: Number(item.quantity),
@@ -197,7 +197,7 @@ class SaleService {
                 
                 sale.items = items;
                 
-                // Log completo para diagnóstico
+                
                 console.log(`Detalhes completos da venda #${saleId} com ${items.length} itens`);
                 resolve(sale);
               },
@@ -217,7 +217,7 @@ class SaleService {
     });
   }
   
-  // Buscar resumo do caixa por período
+  
   getCashSummary(startDate, endDate) {
     return new Promise((resolve, reject) => {
       const query = `SELECT 

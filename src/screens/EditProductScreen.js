@@ -15,7 +15,7 @@ import { Feather } from '@expo/vector-icons';
 import ProductService from '../services/ProductService';
 
 const EditProductScreen = ({ navigation, route }) => {
-  // Estados para armazenar os dados do produto
+  
   const [productData, setProductData] = useState({
     code: '',
     name: '',
@@ -26,10 +26,10 @@ const EditProductScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Extrair o ID do produto dos parâmetros da rota
+  
   const { productId } = route.params || {};
 
-  // Carregar os dados do produto ao montar o componente
+  
   useEffect(() => {
     const loadProductData = async () => {
       if (!productId) {
@@ -52,7 +52,7 @@ const EditProductScreen = ({ navigation, route }) => {
           return;
         }
 
-        // Formatando os valores para exibição nos inputs
+        
         setProductData({
           code: product.code || '',
           name: product.name || '',
@@ -72,14 +72,14 @@ const EditProductScreen = ({ navigation, route }) => {
     loadProductData();
   }, [productId, navigation]);
 
-  // Função para atualizar cada campo
+  
   const handleChange = (field, value) => {
     setProductData({ ...productData, [field]: value });
   };
 
-  // Função para salvar as alterações
+  
   const handleSave = async () => {
-    // Validação básica
+    
     if (!productData.code || !productData.name || !productData.price) {
       Alert.alert('Erro', 'Por favor, preencha os campos obrigatórios: código, nome e preço');
       return;

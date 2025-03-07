@@ -13,7 +13,7 @@ export default function App() {
     const initApp = async () => {
       try {
         console.log("Tentando inicializar o banco de dados...");
-        // Verifique se expo-sqlite está disponível
+        
         const SQLite = require('expo-sqlite');
         if (!SQLite) {
           throw new Error("Módulo expo-sqlite não encontrado");
@@ -25,12 +25,12 @@ export default function App() {
         setError(null);
       } catch (error) {
         console.error('Erro ao inicializar banco de dados:', error);
-        // Adicione estas linhas para informações mais detalhadas:
+        
         console.error('Mensagem do erro:', error.message);
         console.error('Stack trace completa:', error.stack);
         setError(`Erro: ${error.message || 'Erro desconhecido'}`);
         
-        // Exibir informações mais detalhadas sobre o erro
+        
         Alert.alert(
           "Erro de inicialização", 
           `Houve um problema ao iniciar o banco de dados: ${error.message}.\nVerifique os logs para mais detalhes.`

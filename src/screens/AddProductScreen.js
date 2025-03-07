@@ -12,10 +12,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import ProductService from '../services/ProductService'; // Importar o serviço
+import ProductService from '../services/ProductService';
 
 const AddProductScreen = ({ navigation }) => {
-  // Estado para os campos do novo produto
+  
   const [productData, setProductData] = useState({
     code: '',
     name: '',
@@ -23,22 +23,22 @@ const AddProductScreen = ({ navigation }) => {
     costPrice: '',
     quantity: '',
   });
-  const [loading, setLoading] = useState(false); // Estado para controlar carregamento
+  const [loading, setLoading] = useState(false);
 
-  // Função para atualizar cada campo
+  
   const handleChange = (field, value) => {
     setProductData({ ...productData, [field]: value });
   };
 
-  // Função para salvar o novo produto
+  
   const handleSave = async () => {
-    // Validação básica
+    
     if (!productData.code || !productData.name || !productData.salePrice) {
       Alert.alert('Erro', 'Por favor, preencha os campos obrigatórios: código, nome e preço de venda.');
       return;
     }
 
-    // Validar valores numéricos
+    
     if (isNaN(parseFloat(productData.salePrice))) {
       Alert.alert('Erro', 'Preço de venda deve ser um número válido.');
       return;
@@ -47,16 +47,16 @@ const AddProductScreen = ({ navigation }) => {
     try {
       setLoading(true);
       
-      // Preparar os dados no formato esperado pelo banco
+      
       const productToSave = {
         code: productData.code,
         name: productData.name,
-        price: parseFloat(productData.salePrice), // Renomear salePrice para price (conforme esperado pelo banco)
+        price: parseFloat(productData.salePrice), 
         costPrice: productData.costPrice ? parseFloat(productData.costPrice) : 0,
         quantity: productData.quantity ? parseInt(productData.quantity) : 0,
       };
 
-      // Salvar no banco de dados
+      
       const insertId = await ProductService.addProduct(productToSave);
       
       console.log('Produto salvo com ID:', insertId);
